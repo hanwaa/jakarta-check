@@ -18,9 +18,6 @@ export default function HeroClient() {
       <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-red-300">
-              <span className="h-2 w-2 rounded-full bg-red-400 jc-blink" aria-hidden /> THINK BEFORE YOU SHARE
-            </p>
             <h1 className="mt-5 font-display text-5xl font-black leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
               JAKARTA <span className="text-red-500 text-glow">CHECK!</span>
             </h1>
