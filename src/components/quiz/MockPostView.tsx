@@ -1,0 +1,113 @@
+"use client";
+
+import type { MockPost } from "@/lib/types";
+import { EmojiIcon } from "@/components/icons";
+
+interface MockPostViewProps {
+  post: MockPost;
+  selected: Set<string>;
+  onSelect: (hotspotId: string) => void;
+  disabled?: boolean;
+  showAll?: boolean;
+  highlightFlags?: boolean;
+  large?: boolean;
+  accent?: "orange" | "blue";
+  sideLabel?: string;
+  matchedIds?: Set<string>;
+}
+
+export default function MockPostView({
+  post,
+  selected,
+  onSelect,
+  disabled,
+  showAll,
+  highlightFlags,
+  large,
+  accent = "orange",
+  sideLabel,
+  matchedIds,
+}: MockPostViewProps) {
+  const pad = large ? "px-5 py-5 sm:px-6" : "px-4 py-4";
+
+  return (
+    <div
+      className={`relative overflow-hidden rounded-2xl border shadow-lg shadow-black/30 transition ${
+        accent === "blue"
+          ? "border-blue-500/25 bg-[#0d1526]"
+          : "border-orange-500/25 bg-[#171009]"
+      }`}
+    >
+      {sideLabel && (
+        <p
+          className={`text-center text-[10px] font-black uppercase tracking-[0.3em] ${
+            accent === "blue" ? "bg-blue-500/15 text-blue-300" : "bg-orange-500/15 text-orange-300"
+          }`}
+        >
+          {sideLabel}
+        </p>
+      )}
+
+      <div className={`flex items-center gap-3 border-b border-line ${pad}`}>
+        <span
+          className={`grid place-items-center rounded-full text-xs font-black ${
+            large ? "h-11 w-11 text-sm" : "h-9 w-9"
+          } ${accent === "blue" ? "bg-blue-500/20 text-blue-200" : "bg-orange-500/20 text-orange-200"}`}
+          aria-hidden
+        >
+          {post.avatarText}
+        </span>
+        <div className="flex-1">
+          <p className={`${large ? "text-base" : "text-sm"} font-bold text-white`}>{post.username}</p>
+          <p className="text-xs text-slate-400">
+            {post.platform} · {post.time}
+          </p>
+        </div>
+        <span className="text-slate-500" aria-hidden>
+          ⋯
+        </span>
+      </div>
+
+      <div className={pad}>
+        <p className={`font-bold leading-snug text-white ${large ? "text-lg sm:text-xl" : ""}`}>{post.headline}</p>
+        <p className={`mt-2 leading-relaxed text-slate-300 ${large ? "text-sm sm:text-base" : "text-sm"}`}>
+          {post.body}
+        </p>
+      </div>
+
+      {post.hotspots.map((h) => {
+        const isSelected = selected.has(h.id);
+        const isMatched = matchedIds?.has(h.id) ?? false;
+        const isFlag = h.isFlag;
+        const showCorrect = showAll && isFlag && highlightFlags;
+        return (
+          <button
+            key={h.id}
+            type="button"
+            disabled={disabled || isSelected || isMatched}
+            onClick={() => onSelect(h.id)}
+            title={h.note}
+            className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 px-2.5 py-1 text-[10px] font-bold shadow-md transition ${
+              showCorrect
+                ? "border-red-400 bg-red-500 text-white"
+                : isMatched
+                  ? "border-emerald-400 bg-emerald-500 text-white"
+                  : isSelected
+                    ? "border-emerald-300 bg-emerald-600 text-white"
+                    : "border-slate-500/60 bg-[#0b0f17]/95 text-slate-300 hover:border-orange-400 hover:text-orange-300"
+            }`}
+            style={{ left: `${h.x}%`, top: `${h.y}%` }}
+            aria-label={`Titik: ${h.label}`}
+          >
+            {showCorrect ? (
+              <EmojiIcon e="🚩" size={10} className="mr-0.5 inline" />
+            ) : isMatched || isSelected ? (
+              <EmojiIcon e="✅" size={10} className="mr-0.5 inline" />
+            ) : null}
+            {h.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
