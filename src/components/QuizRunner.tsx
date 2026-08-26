@@ -318,37 +318,74 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
         )}
 
         {mode === "red-flag" && redItem && (
-          <div>
-            <p className="mb-3 text-sm font-semibold text-slate-300">{redItem.prompt}</p>
-            <MockPostView
-              post={redItem.post}
-              selected={flagFound}
-              onSelect={pickFlag}
-              disabled={flagDone}
-              showAll={flagDone}
-              highlightFlags
-              large
-            />
-            <div className="mt-4 space-y-3">
+          <div className="space-y-5">
+            {/* Prompt — lebih rapi dengan card */}
+            <div className="rounded-2xl border border-orange-500/20 bg-orange-500/5 px-4 py-3">
+              <p className="flex items-center gap-2 text-sm font-semibold text-orange-200">
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-orange-500/20 text-orange-300">
+                  <EmojiIcon e="🚩" size={14} />
+                </span>
+                {redItem.prompt}
+                <span className="ml-auto rounded-full bg-white/5 px-2.5 py-1 text-xs font-bold text-slate-300">
+                  {flagFound.size}/{redFlags.length}
+                </span>
+              </p>
+            </div>
+
+            <div className="mx-auto max-w-[640px]">
+              <MockPostView
+                post={redItem.post}
+                selected={flagFound}
+                onSelect={pickFlag}
+                disabled={flagDone}
+                showAll={flagDone}
+                highlightFlags
+                large
+              />
+              <p className="mt-3 text-center text-xs text-slate-500">
+                Klik tombol berlabel di atas postingan — cari {redFlags.length} red flag
+              </p>
+            </div>
+
+            <div className="space-y-3">
               {flagWrongNote && (
-                <div className="jc-pop rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm">
-                  <p className="font-bold text-red-300">Bukan itu red flag utamanya.</p>
-                  <p className="mt-1 text-slate-300">{flagWrongNote}</p>
+                <div className="jc-pop flex gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4">
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-red-500/20 text-red-300">
+                    ✕
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-red-200">Bukan itu red flag utamanya</p>
+                    <p className="mt-1 text-sm leading-relaxed text-slate-300">{flagWrongNote}</p>
+                  </div>
                 </div>
               )}
               {flagFound.size > 0 && !flagDone && (
-                <p className="flex items-center gap-2 rounded-xl border border-orange-500/30 bg-orange-500/10 p-3 text-sm font-semibold text-orange-200">
-                  <EmojiIcon e="🚩" size={16} className="shrink-0" /> Red flag ditemukan: {flagFound.size}/
-                  {redFlags.length}. Terus cari!
-                </p>
+                <div className="flex items-center gap-3 rounded-2xl border border-orange-500/25 bg-gradient-to-r from-orange-500/10 to-amber-500/10 px-4 py-3.5">
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-orange-500/20 text-orange-300">
+                    <EmojiIcon e="🚩" size={16} />
+                  </span>
+                  <p className="text-sm font-semibold text-orange-200">
+                    Red flag ditemukan: <span className="font-black text-white">{flagFound.size}</span>/
+                    {redFlags.length} — terus cari!
+                  </p>
+                  <span className="ml-auto hidden h-2 w-24 overflow-hidden rounded-full bg-white/10 sm:block" aria-hidden>
+                    <span
+                      className="block h-full bg-gradient-to-r from-orange-500 to-amber-400 transition-all"
+                      style={{ width: `${(flagFound.size / redFlags.length) * 100}%` }}
+                    />
+                  </span>
+                </div>
               )}
               {flagDone && (
-                <div className="jc-pop rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4">
-                  <p className="flex items-center gap-2 font-bold text-emerald-300">
-                    <EmojiIcon e="🚩" size={18} className="shrink-0" /> SEMUA RED FLAG FOUND!
+                <div className="jc-pop rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-5">
+                  <p className="flex items-center gap-2 text-base font-black text-emerald-200">
+                    <span className="grid h-8 w-8 place-items-center rounded-full bg-emerald-500/20">
+                      <EmojiIcon e="🚩" size={18} />
+                    </span>
+                    SEMUA RED FLAG DITEMUKAN!
                   </p>
-                  <p className="mt-1 text-sm text-slate-300">{redItem.explanation}</p>
-                  <button type="button" onClick={nextFlag} className={`${ORANGE_BTN} mt-4`}>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300">{redItem.explanation}</p>
+                  <button type="button" onClick={nextFlag} className={`${ORANGE_BTN} mt-4 w-full justify-center sm:w-auto`}>
                     {idx + 1 >= RED_FLAG_ITEMS.length ? "Selesai" : "Postingan Berikutnya"} →
                   </button>
                 </div>

@@ -32,7 +32,7 @@ export default function MockPostView({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl border shadow-lg shadow-black/30 transition ${
+      className={`relative overflow-visible rounded-2xl border shadow-lg shadow-black/30 transition ${
         accent === "blue"
           ? "border-blue-500/25 bg-[#0d1526]"
           : "border-orange-500/25 bg-[#171009]"
@@ -75,39 +75,42 @@ export default function MockPostView({
         </p>
       </div>
 
-      {post.hotspots.map((h) => {
-        const isSelected = selected.has(h.id);
-        const isMatched = matchedIds?.has(h.id) ?? false;
-        const isFlag = h.isFlag;
-        const showCorrect = showAll && isFlag && highlightFlags;
-        return (
-          <button
-            key={h.id}
-            type="button"
-            disabled={disabled || isSelected || isMatched}
-            onClick={() => onSelect(h.id)}
-            title={h.note}
-            className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 px-2.5 py-1 text-[10px] font-bold shadow-md transition ${
-              showCorrect
-                ? "border-red-400 bg-red-500 text-white"
-                : isMatched
-                  ? "border-emerald-400 bg-emerald-500 text-white"
-                  : isSelected
-                    ? "border-emerald-300 bg-emerald-600 text-white"
-                    : "border-slate-500/60 bg-[#0b0f17]/95 text-slate-300 hover:border-orange-400 hover:text-orange-300"
-            }`}
-            style={{ left: `${h.x}%`, top: `${h.y}%` }}
-            aria-label={`Titik: ${h.label}`}
-          >
-            {showCorrect ? (
-              <EmojiIcon e="🚩" size={10} className="mr-0.5 inline" />
-            ) : isMatched || isSelected ? (
-              <EmojiIcon e="✅" size={10} className="mr-0.5 inline" />
-            ) : null}
-            {h.label}
-          </button>
-        );
-      })}
+      {/* Hotspot layer — proporsi tombol diperbesar & dirapikan */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden={false}>
+        {post.hotspots.map((h) => {
+          const isSelected = selected.has(h.id);
+          const isMatched = matchedIds?.has(h.id) ?? false;
+          const isFlag = h.isFlag;
+          const showCorrect = showAll && isFlag && highlightFlags;
+          return (
+            <button
+              key={h.id}
+              type="button"
+              disabled={disabled || isSelected || isMatched}
+              onClick={() => onSelect(h.id)}
+              title={h.note}
+              className={`pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center gap-1.5 rounded-full border-2 px-3.5 py-1.5 text-xs font-bold leading-none shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+                showCorrect
+                  ? "border-red-400 bg-red-500 text-white shadow-red-500/30 animate-pulse"
+                  : isMatched
+                    ? "border-emerald-400 bg-emerald-500 text-white shadow-emerald-500/30"
+                    : isSelected
+                      ? "border-emerald-300 bg-emerald-600 text-white shadow-emerald-500/20"
+                      : "border-white/15 bg-[#0b0f17]/90 text-slate-200 hover:border-orange-400 hover:bg-orange-500/20 hover:text-orange-200 hover:shadow-orange-500/20"
+              }`}
+              style={{ left: `${h.x}%`, top: `${h.y}%` }}
+              aria-label={`Titik: ${h.label}`}
+            >
+              {showCorrect ? (
+                <EmojiIcon e="🚩" size={12} className="shrink-0" />
+              ) : isMatched || isSelected ? (
+                <EmojiIcon e="✅" size={12} className="shrink-0" />
+              ) : null}
+              <span className="whitespace-nowrap">{h.label}</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
