@@ -76,12 +76,12 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
   };
 
   // ---------- red flag ----------
-  const redItem = RED_FLAG_ITEMS[idx];
-  const redFlags = redItem.post.hotspots.filter((h) => h.isFlag);
-  const flagDone = flagFound.size >= redFlags.length;
+  const redItem = mode === "red-flag" ? RED_FLAG_ITEMS[idx] ?? null : null;
+  const redFlags = redItem ? redItem.post.hotspots.filter((h) => h.isFlag) : [];
+  const flagDone = redItem ? flagFound.size >= redFlags.length : false;
 
   const pickFlag = (id: string) => {
-    if (flagDone) return;
+    if (flagDone || !redItem) return;
     const hot = redItem.post.hotspots.find((h) => h.id === id);
     if (!hot) return;
     if (hot.isFlag) {
@@ -106,12 +106,12 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
   };
 
   // ---------- spot the hoax ----------
-  const spotItem = SPOT_PAIRS[idx];
-  const totalDiffs = spotItem.differences.length;
-  const foundDiffs = spotItem.differences.filter(([aId]) => matched.has(aId)).length;
+  const spotItem = mode === "spot-the-hoax" ? SPOT_PAIRS[idx] ?? null : null;
+  const totalDiffs = spotItem ? spotItem.differences.length : 0;
+  const foundDiffs = spotItem ? spotItem.differences.filter(([aId]) => matched.has(aId)).length : 0;
 
   const pairIdOf = (aId: string | null, bId: string | null): [string, string] | null => {
-    if (!aId || !bId) return null;
+    if (!aId || !bId || !spotItem) return null;
     const pair = spotItem.differences.find(([a, b]) => (a === aId && b === bId) || (a === bId && b === aId));
     return pair ? [pair[0], pair[1]] : null;
   };
@@ -149,9 +149,10 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
     track("quiz_answered", { mode, correct: true });
   };
 
-  const spotDone = foundDiffs >= totalDiffs;
+  const spotDone = spotItem ? foundDiffs >= totalDiffs : false;
 
   const nextSpot = () => {
+    if (!spotItem) return;
     setSpotScore((s) => s + spotItem.differences.length);
     if (idx + 1 >= SPOT_PAIRS.length) {
       finish(spotScore + spotItem.differences.length, SPOT_PAIRS.reduce((acc, p) => acc + p.differences.length, 0));
@@ -177,7 +178,7 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
       : spotScore + foundDiffs;
 
   const spotWrongNotes = (() => {
-    if (!spotWrong) return null;
+    if (!spotWrong || !spotItem) return null;
     const a = [...spotItem.postA.hotspots, ...spotItem.postB.hotspots].find((h) => h.id === spotWrong[0]);
     const b = [...spotItem.postA.hotspots, ...spotItem.postB.hotspots].find((h) => h.id === spotWrong[1]);
     if (!a || !b) return null;
@@ -316,7 +317,7 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
           </Card>
         )}
 
-        {mode === "red-flag" && (
+        {mode === "red-flag" && redItem && (
           <div>
             <p className="mb-3 text-sm font-semibold text-slate-300">{redItem.prompt}</p>
             <MockPostView
@@ -356,7 +357,7 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
           </div>
         )}
 
-        {mode === "spot-the-hoax" && (
+        {mode === "spot-the-hoax" && spotItem && (
           <div>
             <p className="mb-3 text-sm font-semibold text-slate-300">{spotItem.prompt}</p>
 
