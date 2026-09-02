@@ -5,7 +5,7 @@ import { track } from "@/lib/analytics";
 
 export default function HeroClient() {
   const onPrimary = () => track("hero_cta_click", { cta: "MULAI CEK FAKTA", href: "/cek-fakta" });
-  const onSecondary = () => track("hero_cta_click", { cta: "IKUTI CHALLENGE", href: "/challenge" });
+  const onSecondary = () => track("hero_cta_click", { cta: "IKUTI CHALLENGE", href: "/challenge?autostart=1" });
 
   return (
     <div className="relative overflow-hidden bg-[#0b0f17] text-white">
@@ -38,7 +38,7 @@ export default function HeroClient() {
                 Mulai Cek Fakta
               </Link>
               <Link
-                href="/challenge"
+                href="/challenge?autostart=1"
                 onClick={onSecondary}
                 className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white/20 bg-white/5 px-7 py-4 text-sm font-extrabold uppercase tracking-wide text-white backdrop-blur transition hover:border-white/60 hover:bg-white/10"
               >

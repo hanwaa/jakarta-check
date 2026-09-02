@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Level } from "@/lib/types";
 import { LEVELS } from "@/lib/content";
@@ -9,6 +9,15 @@ import { completeLesson, completeLevel, announceBadges, useUserState } from "@/l
 import { ProgressBar, Card } from "@/components/ui";
 import { EmojiIcon } from "@/components/icons";
 
+function shuffle<T>(arr: T[]): T[] {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
 export default function AcademyLevelClient({ level }: { level: Level }) {
   const [selectedLesson, setSelectedLesson] = useState<string | null>(null);
   const [quizOpen, setQuizOpen] = useState(false);
@@ -16,6 +25,8 @@ export default function AcademyLevelClient({ level }: { level: Level }) {
   const [quizAnswer, setQuizAnswer] = useState<number | null>(null);
   const [quizCorrect, setQuizCorrect] = useState(0);
   const [quizDone, setQuizDone] = useState(false);
+
+  const quiz = useMemo(() => shuffle(level.quiz), [level.quiz]);
 
   const state = useUserState();
   const completed = state.completedLessons;
@@ -62,13 +73,13 @@ export default function AcademyLevelClient({ level }: { level: Level }) {
   const answerQuiz = (i: number) => {
     if (quizAnswer !== null) return;
     setQuizAnswer(i);
-    const correct = i === level.quiz[quizIdx].correct;
+    const correct = i === quiz[quizIdx].correct;
     track("quiz_answered", { level: level.id, correct });
     if (correct) setQuizCorrect((c) => c + 1);
   };
 
   const nextQuiz = () => {
-    if (quizIdx + 1 >= level.quiz.length) {
+    if (quizIdx + 1 >= quiz.length) {
       const { newBadges } = completeLevel(level.id);
       announceBadges(newBadges);
       track("quiz_completed", { level: level.id, score: quizCorrect });
@@ -80,7 +91,6 @@ export default function AcademyLevelClient({ level }: { level: Level }) {
     }
   };
 
-  const quiz = level.quiz;
   const progressPct = lessons.length > 0 ? Math.round((completedCount / lessons.length) * 100) : 0;
 
   return (

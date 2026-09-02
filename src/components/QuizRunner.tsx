@@ -15,9 +15,20 @@ type Phase = "intro" | "play" | "done";
 const ORANGE_BTN =
   "inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#c2410c] to-[#f97316] px-5 py-3 text-sm font-bold uppercase tracking-wide text-white shadow-md shadow-black/40 transition hover:brightness-110";
 
+function shuffle<T>(arr: T[]): T[] {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
 export default function QuizRunner({ mode }: { mode: QuizModeId }) {
   const meta = QUIZ_MODES.find((m) => m.id === mode) ?? QUIZ_MODES[0];
-  const items = useMemo(() => QUIZ_ITEMS.filter((q) => q.mode === mode), [mode]);
+  const items = useMemo(() => shuffle(QUIZ_ITEMS.filter((q) => q.mode === mode)), [mode]);
+  const redFlagList = useMemo(() => shuffle(RED_FLAG_ITEMS), []);
+  const spotPairList = useMemo(() => shuffle(SPOT_PAIRS), []);
 
   const [phase, setPhase] = useState<Phase>("intro");
   const [idx, setIdx] = useState(0);
@@ -76,7 +87,7 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
   };
 
   // ---------- red flag ----------
-  const redItem = mode === "red-flag" ? RED_FLAG_ITEMS[idx] ?? null : null;
+  const redItem = mode === "red-flag" ? redFlagList[idx] ?? null : null;
   const redFlags = redItem ? redItem.post.hotspots.filter((h) => h.isFlag) : [];
   const flagDone = redItem ? flagFound.size >= redFlags.length : false;
 
@@ -96,8 +107,8 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
 
   const nextFlag = () => {
     setFlagScore((s) => s + redFlags.length);
-    if (idx + 1 >= RED_FLAG_ITEMS.length) {
-      finish(flagScore + redFlags.length, RED_FLAG_ITEMS.reduce((acc, r) => acc + r.post.hotspots.filter((h) => h.isFlag).length, 0));
+    if (idx + 1 >= redFlagList.length) {
+      finish(flagScore + redFlags.length, redFlagList.reduce((acc, r) => acc + r.post.hotspots.filter((h) => h.isFlag).length, 0));
     } else {
       setIdx((i) => i + 1);
       setFlagFound(new Set());
@@ -106,7 +117,7 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
   };
 
   // ---------- spot the hoax ----------
-  const spotItem = mode === "spot-the-hoax" ? SPOT_PAIRS[idx] ?? null : null;
+  const spotItem = mode === "spot-the-hoax" ? spotPairList[idx] ?? null : null;
   const totalDiffs = spotItem ? spotItem.differences.length : 0;
   const foundDiffs = spotItem ? spotItem.differences.filter(([aId]) => matched.has(aId)).length : 0;
 

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import ChallengeRunner from "@/components/ChallengeRunner";
 
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function ChallengePage() {
-  return <ChallengeRunner />;
+  return (
+    <Suspense>
+      <ChallengeRunner />
+    </Suspense>
+  );
 }

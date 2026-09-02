@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CHALLENGE_POOL } from "@/lib/content";
 import { track } from "@/lib/analytics";
@@ -23,8 +24,11 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 export default function ChallengeRunner() {
+  const searchParams = useSearchParams();
+  const autostart = searchParams.get("autostart") === "1";
+
   const questions = useMemo(() => shuffle(CHALLENGE_POOL).slice(0, QUESTIONS_COUNT), []);
-  const [phase, setPhase] = useState<Phase>("intro");
+  const [phase, setPhase] = useState<Phase>(autostart ? "play" : "intro");
   const [idx, setIdx] = useState(0);
   const [answer, setAnswer] = useState<number | null>(null);
   const [correctCount, setCorrectCount] = useState(0);

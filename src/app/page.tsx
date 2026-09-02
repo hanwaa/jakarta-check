@@ -5,7 +5,7 @@ import StatsSection from "@/components/StatsSection";
 import ChatSim from "@/components/ChatSim";
 import { SectionHeading, Card } from "@/components/ui";
 import { EmojiIcon } from "@/components/icons";
-import { BADGES, LEVELS } from "@/lib/content";
+import { BADGES } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "JAKARTA CHECK! — Think Before You Share",
@@ -75,85 +75,18 @@ const STEPS = [
 export default function Home() {
   return (
     <>
+      {/* 1 — Hero */}
       <HeroClient />
+
+      {/* 2 — Chat simulation teaser */}
       <ChatSim />
 
+      {/* 3 — Statistik */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6" aria-label="Statistik">
         <StatsSection />
       </section>
 
-      <section className="border-y border-line bg-[#0d1421]/60 py-20" aria-label="Masalah">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="grid items-center gap-10 lg:grid-cols-2">
-            <div>
-              <SectionHeading
-                eyebrow="Masalahnya nyata"
-                title="Kelihatannya meyakinkan? Pause dulu."
-                description="Kita menerima banyak informasi dari WhatsApp, Instagram, TikTok, X, dan grup keluarga. Masalahnya, kita sering percaya, hanya baca judul, dan membagikan tanpa mengecek sumber."
-              />
-              <div className="mt-6 space-y-3">
-                {[
-                  "Hanya membaca judul tanpa membaca isi",
-                  "Tidak mengecek sumber dan tanggal publikasi",
-                  "Membagikan screenshot tanpa konteks",
-                  "Sulit membedakan fakta, opini, dan disinformasi",
-                ].map((item) => (
-                  <div key={item} className="flex items-start gap-3 rounded-xl border border-line bg-surface/70 p-3">
-                    <EmojiIcon e="⚠️" className="mt-0.5 size-5 shrink-0 text-amber-400" />
-                    <p className="text-sm text-slate-300">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="rounded-3xl border border-white/10 bg-black/40 p-8 shadow-xl shadow-black/40">
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Ubah kebiasaanmu</p>
-              <div className="mt-4 space-y-4">
-                <div className="rounded-2xl bg-red-500/10 p-4 ring-1 ring-red-500/30">
-                  <p className="text-sm font-bold text-red-300">Sebelum</p>
-                  <p className="mt-1 font-mono text-lg font-bold text-white">SEE → BELIEVE → SHARE</p>
-                </div>
-                <p className="text-center text-slate-600" aria-hidden>
-                  ↓
-                </p>
-                <div className="rounded-2xl bg-emerald-500/10 p-4 ring-1 ring-emerald-500/30">
-                  <p className="text-sm font-bold text-emerald-300">Setelah menggunakan JAKARTA CHECK!</p>
-                  <p className="mt-1 font-mono text-lg font-bold leading-relaxed text-white">
-                    SEE → STOP → CHECK → CROSS-CHECK → CONCLUDE → SHARE
-                  </p>
-                </div>
-              </div>
-              <p className="mt-6 text-sm text-slate-400">
-                Kami tidak mengajarkan <em>&quot;mana yang hoaks?&quot;</em> — kami mengajarkan{" "}
-                <strong className="text-white">&quot;bagaimana kamu tahu bahwa informasi itu benar?&quot;</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6" aria-label="Cara kerja">
-        <SectionHeading
-          eyebrow="Cara kerja"
-          title="LEARN → TEST → CHECK → CHALLENGE → SHARE"
-          description="Satu alur belajar yang membawamu dari pemula menjadi pemeriksa fakta yang percaya diri."
-          center
-        />
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {STEPS.map((s, i) => (
-            <div key={s.title} className="relative rounded-2xl border border-line bg-surface/80 p-5 text-center shadow-lg shadow-black/30">
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-red-600 to-orange-500 px-2.5 py-0.5 text-xs font-bold text-white">
-                {i + 1}
-              </span>
-              <span className="inline-flex mt-1 text-3xl text-white" aria-hidden>
-                <EmojiIcon e={s.emoji} size={32} />
-              </span>
-              <p className="mt-2 font-display text-sm font-extrabold tracking-wide text-white">{s.title}</p>
-              <p className="mt-1 text-xs text-slate-400">{s.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
+      {/* 4 — Pilih petualanganmu (moved here so users immediately see what they can do) */}
       <section className="border-y border-line bg-[#0d1421]/60 py-20" aria-label="Fitur">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
@@ -181,6 +114,81 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 5 — Masalah */}
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6" aria-label="Masalah">
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <div>
+            <SectionHeading
+              eyebrow="Masalahnya nyata"
+              title="Kelihatannya meyakinkan? Pause dulu."
+              description="Kita menerima banyak informasi dari WhatsApp, Instagram, TikTok, X, dan grup keluarga. Masalahnya, kita sering percaya, hanya baca judul, dan membagikan tanpa mengecek sumber."
+            />
+            <div className="mt-6 space-y-3">
+              {[
+                "Hanya membaca judul tanpa membaca isi",
+                "Tidak mengecek sumber dan tanggal publikasi",
+                "Membagikan screenshot tanpa konteks",
+                "Sulit membedakan fakta, opini, dan disinformasi",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 rounded-xl border border-line bg-surface/70 p-3">
+                  <EmojiIcon e="⚠️" className="mt-0.5 size-5 shrink-0 text-amber-400" />
+                  <p className="text-sm text-slate-300">{item}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-3xl border border-white/10 bg-black/40 p-8 shadow-xl shadow-black/40">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Ubah kebiasaanmu</p>
+            <div className="mt-4 space-y-4">
+              <div className="rounded-2xl bg-red-500/10 p-4 ring-1 ring-red-500/30">
+                <p className="text-sm font-bold text-red-300">Sebelum</p>
+                <p className="mt-1 font-mono text-lg font-bold text-white">SEE → BELIEVE → SHARE</p>
+              </div>
+              <p className="text-center text-slate-600" aria-hidden>
+                ↓
+              </p>
+              <div className="rounded-2xl bg-emerald-500/10 p-4 ring-1 ring-emerald-500/30">
+                <p className="text-sm font-bold text-emerald-300">Setelah menggunakan JAKARTA CHECK!</p>
+                <p className="mt-1 font-mono text-lg font-bold leading-relaxed text-white">
+                  SEE → STOP → CHECK → CROSS-CHECK → CONCLUDE → SHARE
+                </p>
+              </div>
+            </div>
+            <p className="mt-6 text-sm text-slate-400">
+              Kami tidak mengajarkan <em>&quot;mana yang hoaks?&quot;</em> — kami mengajarkan{" "}
+              <strong className="text-white">&quot;bagaimana kamu tahu bahwa informasi itu benar?&quot;</strong>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 6 — Cara kerja */}
+      <section className="border-y border-line bg-[#0d1421]/60 py-20" aria-label="Cara kerja">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <SectionHeading
+            eyebrow="Cara kerja"
+            title="LEARN → TEST → CHECK → CHALLENGE → SHARE"
+            description="Satu alur belajar yang membawamu dari pemula menjadi pemeriksa fakta yang percaya diri."
+            center
+          />
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {STEPS.map((s, i) => (
+              <div key={s.title} className="relative rounded-2xl border border-line bg-surface/80 p-5 text-center shadow-lg shadow-black/30">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-red-600 to-orange-500 px-2.5 py-0.5 text-xs font-bold text-white">
+                  {i + 1}
+                </span>
+                <span className="inline-flex mt-1 text-3xl text-white" aria-hidden>
+                  <EmojiIcon e={s.emoji} size={32} />
+                </span>
+                <p className="mt-2 font-display text-sm font-extrabold tracking-wide text-white">{s.title}</p>
+                <p className="mt-1 text-xs text-slate-400">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7 — Badge */}
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6" aria-label="Badge">
         <SectionHeading
           eyebrow="Gamifikasi"
@@ -204,6 +212,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 8 — CTA hero */}
       <section className="relative overflow-hidden py-20 text-white" aria-label="Panggilan aksi">
         <div
           className="absolute inset-0 bg-gradient-to-r from-[#1e0a0d] via-[#991b1b] to-[#ef4444]"
@@ -232,24 +241,49 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6" aria-label="Level">
-        <div className="grid gap-4 md:grid-cols-4">
-          {LEVELS.map((l) => (
-            <Link key={l.id} href={`/academy/${l.id}`} className="group">
-              <div
-                className={`h-full rounded-2xl bg-gradient-to-br ${l.gradient} p-6 text-white shadow-md shadow-black/40 ring-1 ring-white/10 transition group-hover:-translate-y-1 group-hover:shadow-xl`}
-              >
-                <span className="inline-flex text-3xl" aria-hidden>
-                  <EmojiIcon e={l.emoji} size={32} />
-                </span>
-                <p className="mt-3 text-xs font-bold uppercase tracking-widest text-white/70">Level {l.number}</p>
-                <h3 className="mt-1 font-display text-lg font-extrabold leading-tight">{l.title}</h3>
-                <p className="mt-2 text-sm text-white/80">{l.subtitle}</p>
+      {/* 9 — Academy CTA (replaces all-levels grid) */}
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6" aria-label="Academy">
+        <div className="rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-900/20 via-[#0b0f17] to-[#0b0f17] p-8 sm:p-12">
+          <div className="grid items-center gap-8 md:grid-cols-[1fr_auto]">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-blue-400">Antihoax Academy</p>
+              <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                Belajar dari nol sampai mahir.
+              </h2>
+              <p className="mt-3 max-w-xl text-base text-slate-400">
+                4 level interaktif — dari mengenal hoaks, memahami bias kognitif, mendeteksi AI &amp; deepfake, hingga menjadi fact checker sejati. Gratis, tanpa akun, langsung mulai.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {["Kenalan dengan Hoaks", "Kenapa Kita Bisa Tertipu", "Deteksi AI & Deepfake", "Become a Fact Checker"].map((label, i) => (
+                  <span
+                    key={label}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/25 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300"
+                  >
+                    <span className="font-black text-blue-400">L{i + 1}</span>
+                    {label}
+                  </span>
+                ))}
               </div>
+            </div>
+            <Link
+              href="https://jakarta-check.vercel.app/academy"
+              className="inline-flex shrink-0 items-center gap-2.5 rounded-xl bg-blue-600 px-7 py-4 text-sm font-extrabold uppercase tracking-wide text-white shadow-lg shadow-black/40 transition hover:-translate-y-0.5 hover:bg-blue-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="size-4"
+                aria-hidden="true"
+              >
+                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+              </svg>
+              Masuk Academy
             </Link>
-          ))}
+          </div>
         </div>
       </section>
     </>
   );
 }
+

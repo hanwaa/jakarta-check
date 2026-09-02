@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { BadgeToast } from "@/components/BadgeToast";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import ChallengeFAB from "@/components/ChallengeFAB";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -47,6 +48,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ChallengeFAB />
         <BadgeToast />
       </body>
     </html>

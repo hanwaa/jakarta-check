@@ -19,6 +19,7 @@ export type EventName =
   | "challenge_started"
   | "challenge_completed"
   | "challenge_shared"
+  | "fab_click"
   | "badge_unlocked"
   | "external_tool_clicked";
 
