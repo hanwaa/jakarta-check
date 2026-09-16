@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { BadgeToast } from "@/components/BadgeToast";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import ChallengeFab from "@/components/ChallengeFab";
+import { Analytics } from "@vercel/analytics/next";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -50,6 +51,7 @@ export default function RootLayout({
         <Footer />
         <ChallengeFab />
         <BadgeToast />
+        <Analytics />
       </body>
     </html>
   );
