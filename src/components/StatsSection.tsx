@@ -5,7 +5,7 @@ import { fetchGlobalStats, getLocalStats, type LiveStats } from "@/lib/stats";
 import { EmojiIcon } from "@/components/icons";
 
 function formatNumber(n: number) {
-  return n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, "")}rb+` : `${n}+`;
+  return n.toLocaleString("id-ID");
 }
 
 // 45 detik sudah cukup cepat untuk terasa real-time tanpa membebani server
