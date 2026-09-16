@@ -8,7 +8,8 @@ function formatNumber(n: number) {
   return n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, "")}rb+` : `${n}+`;
 }
 
-const REFRESH_MS = 15000;
+// 45 detik sudah cukup cepat untuk terasa real-time tanpa membebani server
+const REFRESH_MS = 45000;
 
 export default function StatsSection() {
   const [stats, setStats] = useState<LiveStats | null>(null);
@@ -18,6 +19,9 @@ export default function StatsSection() {
     let cancelled = false;
 
     const load = async () => {
+      // Jangan fetch kalau tab sedang di-background (hemat kuota & server)
+      if (typeof document !== "undefined" && document.hidden) return;
+
       const global = await fetchGlobalStats();
       if (cancelled) return;
       if (global) {
@@ -32,9 +36,16 @@ export default function StatsSection() {
     void load();
     const t = window.setInterval(load, REFRESH_MS);
 
+    // Fetch ulang saat user kembali ke tab ini
+    const onVisibility = () => {
+      if (!document.hidden) void load();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     return () => {
       cancelled = true;
       window.clearInterval(t);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
