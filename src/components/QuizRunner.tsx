@@ -165,8 +165,8 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
   const nextSpot = () => {
     if (!spotItem) return;
     setSpotScore((s) => s + spotItem.differences.length);
-    if (idx + 1 >= SPOT_PAIRS.length) {
-      finish(spotScore + spotItem.differences.length, SPOT_PAIRS.reduce((acc, p) => acc + p.differences.length, 0));
+    if (idx + 1 >= spotPairList.length) {
+      finish(spotScore + spotItem.differences.length, spotPairList.reduce((acc, p) => acc + p.differences.length, 0));
     } else {
       setIdx((i) => i + 1);
       setMatched(new Set());
@@ -179,8 +179,8 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
   const total = isChoiceMode
     ? items.length
     : mode === "red-flag"
-      ? RED_FLAG_ITEMS.reduce((acc, r) => acc + r.post.hotspots.filter((h) => h.isFlag).length, 0)
-      : SPOT_PAIRS.reduce((acc, p) => acc + p.differences.length, 0);
+      ? redFlagList.reduce((acc, r) => acc + r.post.hotspots.filter((h) => h.isFlag).length, 0)
+      : spotPairList.reduce((acc, p) => acc + p.differences.length, 0);
 
   const score = isChoiceMode
     ? correctCount
@@ -271,9 +271,9 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
           <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
             {isChoiceMode || mode === "red-flag"
               ? mode === "red-flag"
-                ? `Postingan ${idx + 1} dari ${RED_FLAG_ITEMS.length}`
+                ? `Postingan ${idx + 1} dari ${redFlagList.length}`
                 : `Pertanyaan ${idx + 1} dari ${items.length}`
-              : `Pasangan ${idx + 1} dari ${SPOT_PAIRS.length}`}
+              : `Pasangan ${idx + 1} dari ${spotPairList.length}`}
           </p>
           <p className="rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs font-bold text-orange-300">
             Ditemukan: {score}/{total}
@@ -397,7 +397,7 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-slate-300">{redItem.explanation}</p>
                   <button type="button" onClick={nextFlag} className={`${ORANGE_BTN} mt-4 w-full justify-center sm:w-auto`}>
-                    {idx + 1 >= RED_FLAG_ITEMS.length ? "Selesai" : "Postingan Berikutnya"} →
+                    {idx + 1 >= redFlagList.length ? "Selesai" : "Postingan Berikutnya"} →
                   </button>
                 </div>
               )}
@@ -488,7 +488,7 @@ export default function QuizRunner({ mode }: { mode: QuizModeId }) {
 
                   <p className="mt-3 text-sm text-slate-300">{spotItem.explanation}</p>
                   <button type="button" onClick={nextSpot} className={`${ORANGE_BTN} mt-4`}>
-                    {idx + 1 >= SPOT_PAIRS.length ? "Selesai" : "Pasangan Berikutnya"} →
+                    {idx + 1 >= spotPairList.length ? "Selesai" : "Pasangan Berikutnya"} →
                   </button>
                 </div>
               )}

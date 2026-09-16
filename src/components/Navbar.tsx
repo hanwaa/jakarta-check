@@ -54,14 +54,19 @@ export default function Navbar() {
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigasi utama">
           {LINKS.map((l) => {
             const active = l.href === "/" ? pathname === "/" : pathname.startsWith(l.href);
+            const isAcademy = l.href === "/academy";
             return (
               <Link
                 key={l.href}
                 href={l.href}
                 className={`rounded-lg px-2.5 py-1.5 text-[13px] sm:text-sm font-semibold transition ${
                   active
-                    ? "bg-red-500/15 text-red-300"
-                    : "text-slate-400 hover:bg-white/5 hover:text-white"
+                    ? isAcademy
+                      ? "bg-blue-500/20 text-blue-200"
+                      : "bg-red-500/15 text-red-300"
+                    : isAcademy
+                      ? "border border-blue-500/40 bg-blue-500/10 text-blue-300 hover:bg-blue-500/20 hover:text-blue-200"
+                      : "text-slate-400 hover:bg-white/5 hover:text-white"
                 }`}
               >
                 {l.label}
@@ -91,12 +96,19 @@ export default function Navbar() {
           <div className="flex flex-col gap-1">
             {[...LINKS, { href: "/progress", label: "Progres Saya" }].map((l) => {
               const active = l.href === "/" ? pathname === "/" : pathname.startsWith(l.href);
+              const isAcademy = l.href === "/academy";
               return (
                 <Link
                   key={l.href}
                   href={l.href}
                   className={`rounded-lg px-3 py-2.5 text-sm font-semibold transition ${
-                    active ? "bg-red-500/15 text-red-300" : "text-slate-300 hover:bg-white/5"
+                    active
+                      ? isAcademy
+                        ? "bg-blue-500/20 text-blue-200"
+                        : "bg-red-500/15 text-red-300"
+                      : isAcademy
+                        ? "border border-blue-500/35 bg-blue-500/10 text-blue-300"
+                        : "text-slate-300 hover:bg-white/5"
                   }`}
                 >
                   {l.label}

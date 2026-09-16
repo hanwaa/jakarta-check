@@ -44,15 +44,21 @@ export default function QuizPage() {
           ))}
         </div>
 
-        <Card className="mt-12 text-center">
-          <p className="text-sm text-slate-400">
-            Ingin latihan lebih dulu? Buka{" "}
-            <Link href="/academy" className="font-bold text-blue-400 hover:underline">
-              Antihoax Academy
-            </Link>{" "}
-            untuk belajar materi lengkapnya.
+        <div className="mt-12 rounded-3xl border border-blue-500/25 bg-gradient-to-br from-blue-900/20 to-[#0b0f17] p-8 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-blue-400">Belum belajar dulu?</p>
+          <p className="mt-2 font-display text-xl font-extrabold text-white">
+            Kuasai materinya dulu di Antihoax Academy
           </p>
-        </Card>
+          <p className="mt-2 text-sm text-slate-400">
+            4 level interaktif — dari kenalan dengan hoaks hingga deteksi AI & deepfake.
+          </p>
+          <Link
+            href="/academy"
+            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-extrabold uppercase tracking-wide text-white shadow-md shadow-black/40 transition hover:-translate-y-0.5 hover:bg-blue-500"
+          >
+            Mulai Belajar di Academy →
+          </Link>
+        </div>
       </div>
     </div>
   );

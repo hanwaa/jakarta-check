@@ -13,10 +13,10 @@ type StepId = "input" | "stop" | "source" | "date" | "crosscheck" | "conclude" |
 
 const TOOLS = [
   {
-    name: "Google Fact Check Explorer",
-    desc: "Arsip pengecekan fakta global",
-    href: "https://toolbox.google.com/factcheck/explorer",
-    emoji: "🌐",
+    name: "Google Search",
+    desc: "Cari sumber asli dengan kata kunci",
+    href: "https://www.google.com/search?q=%s",
+    emoji: "🔎",
   },
   {
     name: "TurnBackHoax.id",

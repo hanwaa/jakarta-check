@@ -86,7 +86,7 @@ export default function Home() {
         <StatsSection />
       </section>
 
-      {/* 4 — Pilih petualanganmu (moved here so users immediately see what they can do) */}
+      {/* 4 — Pilih petualanganmu (section ke-3 setelah stats agar user langsung tahu kegunaannya) */}
       <section className="border-y border-line bg-[#0d1421]/60 py-20" aria-label="Fitur">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
@@ -144,9 +144,7 @@ export default function Home() {
                 <p className="text-sm font-bold text-red-300">Sebelum</p>
                 <p className="mt-1 font-mono text-lg font-bold text-white">SEE → BELIEVE → SHARE</p>
               </div>
-              <p className="text-center text-slate-600" aria-hidden>
-                ↓
-              </p>
+              <p className="text-center text-slate-600" aria-hidden>↓</p>
               <div className="rounded-2xl bg-emerald-500/10 p-4 ring-1 ring-emerald-500/30">
                 <p className="text-sm font-bold text-emerald-300">Setelah menggunakan JAKARTA CHECK!</p>
                 <p className="mt-1 font-mono text-lg font-bold leading-relaxed text-white">
@@ -177,7 +175,7 @@ export default function Home() {
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-red-600 to-orange-500 px-2.5 py-0.5 text-xs font-bold text-white">
                   {i + 1}
                 </span>
-                <span className="inline-flex mt-1 text-3xl text-white" aria-hidden>
+                <span className="mt-1 inline-flex text-3xl text-white" aria-hidden>
                   <EmojiIcon e={s.emoji} size={32} />
                 </span>
                 <p className="mt-2 font-display text-sm font-extrabold tracking-wide text-white">{s.title}</p>
@@ -212,12 +210,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8 — CTA hero */}
+      {/* 8 — CTA merah */}
       <section className="relative overflow-hidden py-20 text-white" aria-label="Panggilan aksi">
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-[#1e0a0d] via-[#991b1b] to-[#ef4444]"
-          aria-hidden
-        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1e0a0d] via-[#991b1b] to-[#ef4444]" aria-hidden />
         <div className="jc-dotted pointer-events-none absolute inset-0 opacity-60" aria-hidden />
         <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6">
           <p className="font-display text-4xl font-black tracking-tight sm:text-5xl">THINK BEFORE YOU SHARE.</p>
@@ -241,7 +236,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 9 — Academy CTA (replaces all-levels grid) */}
+      {/* 9 — Academy CTA — bukan daftar level, langsung satu tombol */}
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6" aria-label="Academy">
         <div className="rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-900/20 via-[#0b0f17] to-[#0b0f17] p-8 sm:p-12">
           <div className="grid items-center gap-8 md:grid-cols-[1fr_auto]">
@@ -251,34 +246,28 @@ export default function Home() {
                 Belajar dari nol sampai mahir.
               </h2>
               <p className="mt-3 max-w-xl text-base text-slate-400">
-                4 level interaktif — dari mengenal hoaks, memahami bias kognitif, mendeteksi AI &amp; deepfake, hingga menjadi fact checker sejati. Gratis, tanpa akun, langsung mulai.
+                4 level interaktif — dari mengenal hoaks, memahami bias kognitif, mendeteksi AI &amp; deepfake,
+                hingga menjadi fact checker sejati. Gratis, tanpa akun, langsung mulai.
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
-                {["Kenalan dengan Hoaks", "Kenapa Kita Bisa Tertipu", "Deteksi AI & Deepfake", "Become a Fact Checker"].map((label, i) => (
-                  <span
-                    key={label}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/25 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300"
-                  >
-                    <span className="font-black text-blue-400">L{i + 1}</span>
-                    {label}
-                  </span>
-                ))}
+                {["Kenalan dengan Hoaks", "Kenapa Kita Bisa Tertipu", "Become a Fact Checker", "Deteksi AI & Deepfake"].map(
+                  (label, i) => (
+                    <span
+                      key={label}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/25 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300"
+                    >
+                      <span className="font-black text-blue-400">L{i + 1}</span>
+                      {label}
+                    </span>
+                  ),
+                )}
               </div>
             </div>
             <Link
-              href="https://jakarta-check.vercel.app/academy"
+              href="/academy"
               className="inline-flex shrink-0 items-center gap-2.5 rounded-xl bg-blue-600 px-7 py-4 text-sm font-extrabold uppercase tracking-wide text-white shadow-lg shadow-black/40 transition hover:-translate-y-0.5 hover:bg-blue-500"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="size-4"
-                aria-hidden="true"
-              >
-                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-              </svg>
-              Masuk Academy
+              Masuk Academy →
             </Link>
           </div>
         </div>
@@ -286,4 +275,3 @@ export default function Home() {
     </>
   );
 }
-
